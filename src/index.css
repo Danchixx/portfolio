@@ -63,3 +63,50 @@ body {
   background-color: var(--color-accent-200);
   color: var(--color-accent-900);
 }
+
+/* ===== Particle Field ===== */
+.particle-field {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* ===== Scroll Progress Bar ===== */
+.scroll-progress-track {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 9999;
+  background: transparent;
+  pointer-events: none;
+}
+
+.scroll-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(
+    90deg,
+    var(--color-accent-400),
+    var(--color-accent-500),
+    var(--color-accent-600)
+  );
+  border-radius: 0 2px 2px 0;
+  transition: width 80ms linear;
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.4);
+}
+
+/* ===== Text Reveal Helpers ===== */
+.text-reveal-word,
+.text-reveal-char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* ===== Magnetic Hover Helpers ===== */
+.magnetic-hover {
+  will-change: transform;
+}

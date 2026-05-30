@@ -1,23 +1,122 @@
-import { useState } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import type { FormEvent } from 'react'
-import { motion } from 'framer-motion'
-import { Send, Mail, MapPin, Github, Linkedin, CheckCircle } from 'lucide-react'
+import { Send, Mail, MapPin, Github, Linkedin } from 'lucide-react'
+import anime from 'animejs'
 import Section from '../components/Section'
 import SectionHeading from '../components/SectionHeading'
 import Card from '../components/Card'
 import Button from '../components/Button'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false)
+  const successRef = useRef<HTMLDivElement>(null)
+  const submitBtnRef = useRef<HTMLDivElement>(null)
+
+  const infoRef = useScrollReveal({
+    translateX: -30,
+    translateY: 0,
+    duration: 600,
+  })
+
+  const formRef = useScrollReveal({
+    translateX: 30,
+    translateY: 0,
+    duration: 600,
+    delay: 100,
+  })
+
+  // Ripple effect on submit button
+  const handleRipple = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const btn = e.currentTarget
+    const rect = btn.getBoundingClientRect()
+    const ripple = document.createElement('span')
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+
+    ripple.style.cssText = `
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      left: ${x}px;
+      top: ${y}px;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    `
+
+    btn.style.position = 'relative'
+    btn.style.overflow = 'hidden'
+    btn.appendChild(ripple)
+
+    anime({
+      targets: ripple,
+      width: [0, 300],
+      height: [0, 300],
+      opacity: [1, 0],
+      duration: 600,
+      easing: 'easeOutCubic',
+      complete: () => ripple.remove(),
+    })
+  }, [])
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     setSubmitted(true)
+
+    // Animate success state
+    setTimeout(() => {
+      if (successRef.current) {
+        anime({
+          targets: successRef.current,
+          opacity: [0, 1],
+          scale: [0.9, 1],
+          duration: 500,
+          easing: 'easeOutCubic',
+        })
+
+        // SVG checkmark draw
+        const checkPath = successRef.current.querySelector('.check-path') as SVGElement
+        if (checkPath) {
+          const length = 50
+          checkPath.style.strokeDasharray = `${length}`
+          checkPath.style.strokeDashoffset = `${length}`
+          anime({
+            targets: checkPath,
+            strokeDashoffset: [length, 0],
+            duration: 800,
+            delay: 200,
+            easing: 'easeOutCubic',
+          })
+        }
+      }
+    }, 50)
+
     setTimeout(() => setSubmitted(false), 3000)
   }
 
+  // Input focus animation
+  const handleInputFocus = useCallback((e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    anime({
+      targets: e.currentTarget,
+      boxShadow: ['0 0 0 0px rgba(99, 102, 241, 0)', '0 0 0 4px rgba(99, 102, 241, 0.1)'],
+      duration: 300,
+      easing: 'easeOutCubic',
+    })
+  }, [])
+
+  const handleInputBlur = useCallback((e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    anime({
+      targets: e.currentTarget,
+      boxShadow: ['0 0 0 4px rgba(99, 102, 241, 0.1)', '0 0 0 0px rgba(99, 102, 241, 0)'],
+      duration: 300,
+      easing: 'easeOutCubic',
+    })
+  }, [])
+
   const inputStyles =
-    'w-full px-4 py-3 text-sm text-surface-900 bg-surface-50 border border-surface-200 rounded-xl outline-none transition-all duration-200 placeholder:text-surface-400 focus:border-accent-400 focus:ring-2 focus:ring-accent-100 focus:bg-white'
+    'w-full px-4 py-3 text-sm text-surface-900 bg-surface-50 border border-surface-200 rounded-xl outline-none transition-all duration-200 placeholder:text-surface-400 focus:border-accent-400 focus:bg-white'
 
   return (
     <div className="pt-16">
@@ -29,19 +128,17 @@ export default function Contact() {
 
         <div className="grid md:grid-cols-5 gap-10 max-w-5xl mx-auto">
           {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+          <div
+            ref={infoRef}
             className="md:col-span-2 space-y-6"
+            style={{ opacity: 0 }}
           >
             <div>
               <h3 className="text-lg font-semibold text-surface-900 mb-2">
                 Let's work together
               </h3>
               <p className="text-sm text-surface-500 leading-relaxed">
-                I'm always open to discussing new projects, creative ideas, 
+                I'm always open to discussing new projects, creative ideas,
                 or opportunities to be part of your team.
               </p>
             </div>
@@ -100,31 +197,44 @@ export default function Contact() {
                 </a>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+          <div
+            ref={formRef}
             className="md:col-span-3"
+            style={{ opacity: 0 }}
           >
             <Card hover={false} className="p-6 md:p-8">
               {submitted ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
+                <div
+                  ref={successRef}
                   className="flex flex-col items-center justify-center py-12 text-center"
+                  style={{ opacity: 0 }}
                 >
                   <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mb-4">
-                    <CheckCircle size={32} className="text-green-500" />
+                    <svg
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="text-green-500"
+                    >
+                      <path
+                        className="check-path"
+                        d="M20 6L9 17l-5-5"
+                      />
+                    </svg>
                   </div>
                   <h3 className="text-xl font-semibold text-surface-900">Message Sent!</h3>
                   <p className="text-sm text-surface-500 mt-2">
                     Thank you for reaching out. I'll get back to you soon.
                   </p>
-                </motion.div>
+                </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div>
@@ -138,6 +248,8 @@ export default function Contact() {
                       placeholder="Your name"
                       required
                       className={inputStyles}
+                      onFocus={handleInputFocus}
+                      onBlur={handleInputBlur}
                     />
                   </div>
 
@@ -152,6 +264,8 @@ export default function Contact() {
                       placeholder="your@email.com"
                       required
                       className={inputStyles}
+                      onFocus={handleInputFocus}
+                      onBlur={handleInputBlur}
                     />
                   </div>
 
@@ -166,17 +280,21 @@ export default function Contact() {
                       placeholder="Tell me about your project..."
                       required
                       className={`${inputStyles} resize-none`}
+                      onFocus={handleInputFocus}
+                      onBlur={handleInputBlur}
                     />
                   </div>
 
-                  <Button type="submit" variant="primary" size="lg" className="w-full">
-                    <Send size={16} />
-                    Send Message
-                  </Button>
+                  <div ref={submitBtnRef} onClick={handleRipple}>
+                    <Button type="submit" variant="primary" size="lg" className="w-full">
+                      <Send size={16} />
+                      Send Message
+                    </Button>
+                  </div>
                 </form>
               )}
             </Card>
-          </motion.div>
+          </div>
         </div>
       </Section>
     </div>

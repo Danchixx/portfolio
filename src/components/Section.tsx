@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion'
 import type { ReactNode } from 'react'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 
 interface SectionProps {
   children: ReactNode
@@ -8,18 +8,23 @@ interface SectionProps {
 }
 
 export default function Section({ children, className = '', id }: SectionProps) {
+  const ref = useScrollReveal<HTMLElement>({
+    translateY: 30,
+    duration: 600,
+    easing: 'easeOutCubic',
+    threshold: 0.1,
+    rootMargin: '0px 0px -80px 0px',
+  })
+
   return (
-    <motion.section
+    <section
       id={id}
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
+      ref={ref}
       className={`py-20 md:py-28 ${className}`}
     >
       <div className="max-w-6xl mx-auto px-6">
         {children}
       </div>
-    </motion.section>
+    </section>
   )
 }

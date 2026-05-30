@@ -1,5 +1,6 @@
-import { motion } from 'framer-motion'
+import { useRef, useEffect, useCallback } from 'react'
 import { ExternalLink, Github } from 'lucide-react'
+import anime from 'animejs'
 import Section from '../components/Section'
 import SectionHeading from '../components/SectionHeading'
 import Card from '../components/Card'
@@ -45,8 +46,8 @@ const projects: Project[] = [
   },
   {
     title: 'Portfolio Website',
-    description: 'This very portfolio! A modern, responsive site built with React, TypeScript, Tailwind CSS, and Framer Motion.',
-    techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
+    description: 'This very portfolio! A modern, responsive site built with React, TypeScript, Tailwind CSS, and Anime.js.',
+    techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Anime.js'],
     githubUrl: 'https://github.com/Danchixx/portfolio',
     gradient: 'from-pink-500 to-rose-500',
   },
@@ -59,20 +60,73 @@ const projects: Project[] = [
   },
 ]
 
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
-}
-
-const item = {
-  hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0 },
-}
-
 export default function Projects() {
+  const gridRef = useRef<HTMLDivElement>(null)
+  const hasAnimated = useRef(false)
+
+  useEffect(() => {
+    const el = gridRef.current
+    if (!el) return
+
+    // Set initial hidden state for all cards
+    const cards = el.querySelectorAll('.project-card')
+    cards.forEach((card) => {
+      ;(card as HTMLElement).style.opacity = '0'
+      ;(card as HTMLElement).style.transform = 'translateY(40px) perspective(600px) rotateX(5deg)'
+    })
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated.current) {
+            hasAnimated.current = true
+
+            // 3D flip-up stagger
+            anime({
+              targets: cards,
+              opacity: [0, 1],
+              translateY: [40, 0],
+              rotateX: [5, 0],
+              duration: 700,
+              delay: anime.stagger(100),
+              easing: 'easeOutCubic',
+            })
+
+            // After cards appear, stagger in tech tags
+            anime({
+              targets: el.querySelectorAll('.project-tech-tag'),
+              opacity: [0, 1],
+              scale: [0.8, 1],
+              delay: anime.stagger(30, { start: 600 }),
+              duration: 300,
+              easing: 'easeOutCubic',
+            })
+
+            observer.unobserve(el)
+          }
+        })
+      },
+      { threshold: 0.1 }
+    )
+
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  // Gradient shimmer on hover
+  const handleGradientHover = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      const target = e.currentTarget
+      anime({
+        targets: target,
+        backgroundPosition: ['0% 50%', '100% 50%'],
+        duration: 800,
+        easing: 'easeInOutSine',
+      })
+    },
+    []
+  )
+
   return (
     <div className="pt-16">
       <Section>
@@ -81,18 +135,20 @@ export default function Projects() {
           subtitle="A selection of projects I've worked on. Each one taught me something new."
         />
 
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
+        <div
+          ref={gridRef}
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+          style={{ perspective: '800px' }}
         >
           {projects.map((project) => (
-            <motion.div key={project.title} variants={item}>
+            <div key={project.title} className="project-card">
               <Card className="h-full flex flex-col">
                 {/* Gradient header */}
-                <div className={`h-32 bg-gradient-to-br ${project.gradient} relative overflow-hidden`}>
+                <div
+                  className={`h-32 bg-gradient-to-br ${project.gradient} relative overflow-hidden`}
+                  style={{ backgroundSize: '200% 200%' }}
+                  onMouseEnter={handleGradientHover}
+                >
                   <div className="absolute inset-0 bg-black/10" />
                   <div className="absolute bottom-4 left-5">
                     <h3 className="text-lg font-bold text-white drop-shadow-sm">
@@ -115,7 +171,8 @@ export default function Projects() {
                     {project.techStack.map((tech) => (
                       <span
                         key={tech}
-                        className="px-2.5 py-1 text-xs font-medium text-accent-600 bg-accent-50 rounded-md border border-accent-100"
+                        className="project-tech-tag px-2.5 py-1 text-xs font-medium text-accent-600 bg-accent-50 rounded-md border border-accent-100"
+                        style={{ opacity: 0 }}
                       >
                         {tech}
                       </span>
@@ -139,9 +196,9 @@ export default function Projects() {
                   </div>
                 </div>
               </Card>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </Section>
     </div>
   )
