@@ -21,9 +21,9 @@ export default function Button({
   const baseStyles = 'inline-flex items-center justify-center gap-2 font-medium rounded-xl transition-all duration-200 cursor-pointer'
 
   const variants = {
-    primary: 'bg-accent-500 text-white hover:bg-accent-600 shadow-sm hover:shadow-md active:scale-[0.98]',
-    secondary: 'bg-surface-100 text-surface-700 hover:bg-surface-200 border border-surface-200 active:scale-[0.98]',
-    ghost: 'text-surface-600 hover:text-surface-900 hover:bg-surface-100',
+    primary: 'bg-accent-500 text-white hover:bg-accent-600 dark:bg-gradient-to-r dark:from-accent-500 dark:to-accent-600 dark:hover:from-accent-400 dark:hover:to-accent-500 shadow-sm hover:shadow-md active:scale-[0.98]',
+    secondary: 'bg-surface-100 dark:bg-surface-800 text-surface-700 dark:text-surface-300 hover:bg-surface-200 dark:hover:bg-surface-700 border border-surface-200 dark:border-surface-700 active:scale-[0.98]',
+    ghost: 'text-surface-600 dark:text-surface-400 hover:text-surface-900 dark:hover:text-surface-100 hover:bg-surface-100 dark:hover:bg-surface-800',
   }
 
   const sizes = {

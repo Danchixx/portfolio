@@ -17,47 +17,26 @@ interface Project {
 
 const projects: Project[] = [
   {
-    title: 'Spark LMS',
-    description: 'A full-featured Learning Management System built with React and TypeScript. Features course management, progress tracking, and an admin dashboard.',
-    techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Node.js'],
-    githubUrl: 'https://github.com/Danchixx/spark-lms',
+    title: 'LMS with AI-Generated Reviewer',
+    description: 'Developed a web-based Learning Management System that automatically generates AI-powered reviewers from learning materials to help students review more efficiently.',
+    techStack: ['React', 'Supabase', 'AI / NLP', 'Tailwind CSS'],
+    githubUrl: 'https://github.com/Danchixx',
     gradient: 'from-violet-500 to-purple-600',
   },
   {
-    title: 'E-Commerce Platform',
-    description: 'Modern e-commerce application with product catalog, shopping cart, user authentication, and payment integration.',
-    techStack: ['Next.js', 'TypeScript', 'PostgreSQL', 'Stripe'],
-    githubUrl: 'https://github.com/Danchixx',
-    gradient: 'from-blue-500 to-cyan-500',
-  },
-  {
-    title: 'Task Manager Pro',
-    description: 'A productivity app for managing tasks and projects with drag-and-drop Kanban boards, real-time collaboration, and analytics.',
-    techStack: ['React', 'TypeScript', 'Firebase', 'Tailwind CSS'],
+    title: 'Gym Registration System',
+    description: 'Built a registration system to manage gym members and streamline the enrollment and record-keeping process for the Ugong community.',
+    techStack: ['HTML', 'CSS', 'JavaScript', 'PHP', 'MySQL'],
     githubUrl: 'https://github.com/Danchixx',
     gradient: 'from-emerald-500 to-teal-500',
   },
   {
-    title: 'Weather Dashboard',
-    description: 'Real-time weather dashboard with interactive maps, 7-day forecasts, and location-based weather alerts using OpenWeather API.',
-    techStack: ['React', 'JavaScript', 'REST API', 'Chart.js'],
+    title: 'Barangay Information System',
+    description: 'Created a digital system for managing community records and resident information to improve organization and reduce manual paperwork.',
+    techStack: ['HTML', 'CSS', 'PHP', 'MySQL'],
     githubUrl: 'https://github.com/Danchixx',
-    gradient: 'from-amber-500 to-orange-500',
-  },
-  {
-    title: 'Portfolio Website',
-    description: 'This very portfolio! A modern, responsive site built with React, TypeScript, Tailwind CSS, and Anime.js.',
-    techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Anime.js'],
-    githubUrl: 'https://github.com/Danchixx/portfolio',
-    gradient: 'from-pink-500 to-rose-500',
-  },
-  {
-    title: 'Chat Application',
-    description: 'Real-time messaging app with WebSocket integration, user presence indicators, and message encryption.',
-    techStack: ['React', 'Node.js', 'Socket.io', 'MongoDB'],
-    githubUrl: 'https://github.com/Danchixx',
-    gradient: 'from-indigo-500 to-blue-600',
-  },
+    gradient: 'from-blue-500 to-cyan-500',
+  }
 ]
 
 export default function Projects() {
@@ -128,11 +107,11 @@ export default function Projects() {
   )
 
   return (
-    <div className="pt-16">
+    <div className="pt-2">
       <Section>
         <SectionHeading
-          title="Projects"
-          subtitle="A selection of projects I've worked on. Each one taught me something new."
+          title="Portfolio"
+          align="left"
         />
 
         <div
@@ -162,7 +141,7 @@ export default function Projects() {
 
                 {/* Content */}
                 <div className="p-5 flex flex-col flex-1">
-                  <p className="text-sm text-surface-500 leading-relaxed flex-1">
+                  <p className="text-sm text-surface-500 dark:text-surface-400 leading-relaxed flex-1">
                     {project.description}
                   </p>
 

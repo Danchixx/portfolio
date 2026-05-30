@@ -54,11 +54,12 @@ export default function Card({ children, className = '', hover = true }: CardPro
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className={`bg-white rounded-2xl border border-surface-200/80 shadow-sm overflow-hidden ${
-        hover ? 'hover:shadow-lg hover:border-surface-300/80' : ''
-      } transition-shadow duration-300 ${className}`}
+      className={`relative bg-white dark:bg-surface-850 rounded-2xl border border-surface-200/80 dark:border-surface-800 shadow-sm dark:shadow-md overflow-hidden ${
+        hover ? 'hover:shadow-lg dark:hover:shadow-xl hover:border-surface-300/80 dark:hover:border-surface-700' : ''
+      } transition-all duration-300 ${className}`}
       style={{ willChange: hover ? 'transform' : 'auto' }}
     >
+      <div className="absolute inset-0 rounded-2xl pointer-events-none border border-white/5 dark:border-white/10 hidden dark:block" />
       {children}
     </div>
   )

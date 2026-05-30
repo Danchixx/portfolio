@@ -74,7 +74,7 @@ export default function SectionHeading({ title, subtitle, align = 'center' }: Se
       ref={headingRef}
       className={`mb-14 ${align === 'center' ? 'text-center' : 'text-left'}`}
     >
-      <h2 className="text-3xl md:text-4xl font-bold text-surface-900 tracking-tight">
+      <h2 className="text-3xl md:text-4xl font-bold text-surface-900 dark:text-surface-50 tracking-tight">
         {titleWords.map((word, i) => (
           <span
             key={i}
@@ -91,7 +91,7 @@ export default function SectionHeading({ title, subtitle, align = 'center' }: Se
       </h2>
       {subtitle && (
         <p
-          className="heading-subtitle mt-4 text-surface-500 text-lg max-w-2xl mx-auto leading-relaxed"
+          className="heading-subtitle mt-4 text-surface-500 dark:text-surface-400 text-lg max-w-2xl mx-auto leading-relaxed"
           style={{ opacity: 0 }}
         >
           {subtitle}
@@ -99,7 +99,7 @@ export default function SectionHeading({ title, subtitle, align = 'center' }: Se
       )}
       <div
         ref={barRef}
-        className={`mt-4 h-1 bg-accent-500 rounded-full ${align === 'center' ? 'mx-auto' : ''}`}
+        className={`mt-4 h-1 bg-accent-500 dark:bg-gradient-to-r dark:from-accent-400 dark:to-accent-600 rounded-full ${align === 'center' ? 'mx-auto' : ''}`}
         style={{ width: 0, opacity: 0 }}
       />
     </div>

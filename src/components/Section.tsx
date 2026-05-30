@@ -20,9 +20,9 @@ export default function Section({ children, className = '', id }: SectionProps) 
     <section
       id={id}
       ref={ref}
-      className={`py-20 md:py-28 ${className}`}
+      className={`py-12 md:py-16 first:pt-4 ${className}`}
     >
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="w-full">
         {children}
       </div>
     </section>

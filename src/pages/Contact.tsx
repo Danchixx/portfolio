@@ -116,14 +116,14 @@ export default function Contact() {
   }, [])
 
   const inputStyles =
-    'w-full px-4 py-3 text-sm text-surface-900 bg-surface-50 border border-surface-200 rounded-xl outline-none transition-all duration-200 placeholder:text-surface-400 focus:border-accent-400 focus:bg-white'
+    'w-full px-4 py-3 text-sm text-surface-900 dark:text-surface-50 bg-surface-50 dark:bg-surface-800 border border-surface-200 dark:border-surface-700 rounded-xl outline-none transition-all duration-200 placeholder:text-surface-400 focus:border-accent-400 dark:focus:border-accent-400 focus:bg-white dark:focus:bg-surface-850'
 
   return (
-    <div className="pt-16">
+    <div className="pt-2">
       <Section>
         <SectionHeading
-          title="Get in Touch"
-          subtitle="Have a project in mind or just want to say hello? I'd love to hear from you."
+          title="Contact"
+          align="left"
         />
 
         <div className="grid md:grid-cols-5 gap-10 max-w-5xl mx-auto">
@@ -134,10 +134,10 @@ export default function Contact() {
             style={{ opacity: 0 }}
           >
             <div>
-              <h3 className="text-lg font-semibold text-surface-900 mb-2">
+              <h3 className="text-xl font-bold text-surface-900 dark:text-surface-50 mb-2">
                 Let's work together
               </h3>
-              <p className="text-sm text-surface-500 leading-relaxed">
+              <p className="text-sm text-surface-500 dark:text-surface-400 leading-relaxed">
                 I'm always open to discussing new projects, creative ideas,
                 or opportunities to be part of your team.
               </p>
@@ -146,28 +146,28 @@ export default function Contact() {
             {/* Contact details */}
             <div className="space-y-4">
               <a
-                href="mailto:danilo@example.com"
+                href="mailto:danilogatch@gmail.com"
                 className="flex items-center gap-3 group"
               >
-                <div className="w-10 h-10 bg-accent-50 rounded-xl flex items-center justify-center group-hover:bg-accent-100 transition-colors">
+                <div className="w-10 h-10 bg-accent-50 dark:bg-surface-800 rounded-xl flex items-center justify-center group-hover:bg-accent-100 dark:group-hover:bg-surface-700 transition-colors">
                   <Mail size={18} className="text-accent-500" />
                 </div>
                 <div>
                   <p className="text-xs text-surface-400">Email</p>
-                  <p className="text-sm font-medium text-surface-700 group-hover:text-accent-600 transition-colors">
-                    danilo@example.com
+                  <p className="text-sm font-medium text-surface-700 dark:text-surface-300 group-hover:text-accent-600 dark:group-hover:text-accent-400 transition-colors">
+                    danilogatch@gmail.com
                   </p>
                 </div>
               </a>
 
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-accent-50 rounded-xl flex items-center justify-center">
+                <div className="w-10 h-10 bg-accent-50 dark:bg-surface-800 rounded-xl flex items-center justify-center">
                   <MapPin size={18} className="text-accent-500" />
                 </div>
                 <div>
                   <p className="text-xs text-surface-400">Location</p>
-                  <p className="text-sm font-medium text-surface-700">
-                    Available Worldwide
+                  <p className="text-sm font-medium text-surface-700 dark:text-surface-300">
+                    Pasig City, Metro Manila
                   </p>
                 </div>
               </div>
