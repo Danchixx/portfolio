@@ -262,8 +262,8 @@ export default function Contact() {
                       />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-semibold text-surface-900">Message Sent!</h3>
-                  <p className="text-sm text-surface-500 mt-2">
+                  <h3 className="text-xl font-semibold text-surface-900 dark:text-surface-50">Message Sent!</h3>
+                  <p className="text-sm text-surface-500 dark:text-surface-400 mt-2">
                     Thank you for reaching out. I'll get back to you soon.
                   </p>
                 </div>
