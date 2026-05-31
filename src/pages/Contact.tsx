@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from 'react'
 import type { FormEvent } from 'react'
-import { Send, Mail, MapPin, Github, Linkedin } from 'lucide-react'
+import { Send, Mail, MapPin, Github, Linkedin, Facebook, Briefcase } from 'lucide-react'
 import anime from 'animejs'
 import Section from '../components/Section'
 import SectionHeading from '../components/SectionHeading'
@@ -220,12 +220,29 @@ export default function Contact() {
                   <Github size={18} />
                 </a>
                 <a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/in/danilo-gonzales-184203244?utm_source=share_via&utm_content=profile&utm_medium=member_android"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 bg-surface-100 rounded-xl flex items-center justify-center text-surface-500 hover:bg-blue-600 hover:text-white transition-all duration-200"
                 >
                   <Linkedin size={18} />
+                </a>
+                <a
+                  href="https://facebook.com/danchixx"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-surface-100 rounded-xl flex items-center justify-center text-surface-500 hover:bg-blue-500 hover:text-white transition-all duration-200"
+                >
+                  <Facebook size={18} />
+                </a>
+                <a
+                  href="https://profile.indeed.com/p/danilog-jw1lfqz"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-surface-100 rounded-xl flex items-center justify-center text-surface-500 hover:bg-blue-700 hover:text-white transition-all duration-200"
+                  title="Indeed"
+                >
+                  <Briefcase size={18} />
                 </a>
               </div>
             </div>
@@ -262,8 +279,8 @@ export default function Contact() {
                       />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-semibold text-surface-900">Message Sent!</h3>
-                  <p className="text-sm text-surface-500 mt-2">
+                  <h3 className="text-xl font-semibold text-surface-900 dark:text-surface-50">Message Sent!</h3>
+                  <p className="text-sm text-surface-500 dark:text-surface-400 mt-2">
                     Thank you for reaching out. I'll get back to you soon.
                   </p>
                 </div>
