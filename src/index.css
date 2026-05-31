@@ -1,19 +1,23 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 
-  --color-accent-50: #eef2ff;
-  --color-accent-100: #e0e7ff;
-  --color-accent-200: #c7d2fe;
-  --color-accent-300: #a5b4fc;
-  --color-accent-400: #818cf8;
-  --color-accent-500: #6366f1;
-  --color-accent-600: #4f46e5;
-  --color-accent-700: #4338ca;
-  --color-accent-800: #3730a3;
-  --color-accent-900: #312e81;
+  /* Amber / Gold Accent Palette */
+  --color-accent-50: #fffbeb;
+  --color-accent-100: #fef3c7;
+  --color-accent-200: #fde68a;
+  --color-accent-300: #fcd34d;
+  --color-accent-400: #fbbf24;
+  --color-accent-500: #f59e0b;
+  --color-accent-600: #d97706;
+  --color-accent-700: #b45309;
+  --color-accent-800: #92400e;
+  --color-accent-900: #78350f;
 
+  /* Surface / Neutral Palette */
   --color-surface-50: #fafafa;
   --color-surface-100: #f5f5f5;
   --color-surface-200: #e5e5e5;
@@ -22,9 +26,10 @@
   --color-surface-500: #737373;
   --color-surface-600: #525252;
   --color-surface-700: #404040;
-  --color-surface-800: #262626;
-  --color-surface-900: #171717;
-  --color-surface-950: #0a0a0a;
+  --color-surface-800: #262626;  /* Jet / Eerie Black approximations */
+  --color-surface-850: #1e1e1e;
+  --color-surface-900: #171717;  /* Eerie Black */
+  --color-surface-950: #0a0a0a;  /* Smoky Black approx */
 }
 
 /* Base styles */
@@ -40,6 +45,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.dark body {
+  background-color: var(--color-surface-950);
+  color: var(--color-surface-50);
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -49,19 +59,36 @@ body {
   background: var(--color-surface-100);
 }
 
+.dark ::-webkit-scrollbar-track {
+  background: var(--color-surface-900);
+}
+
 ::-webkit-scrollbar-thumb {
   background: var(--color-surface-300);
   border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: var(--color-surface-700);
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-surface-400);
 }
 
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--color-surface-600);
+}
+
 /* Selection */
 ::selection {
   background-color: var(--color-accent-200);
   color: var(--color-accent-900);
+}
+
+.dark ::selection {
+  background-color: var(--color-accent-800);
+  color: var(--color-accent-50);
 }
 
 /* ===== Particle Field ===== */
@@ -96,7 +123,7 @@ body {
   );
   border-radius: 0 2px 2px 0;
   transition: width 80ms linear;
-  box-shadow: 0 0 8px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
 }
 
 /* ===== Text Reveal Helpers ===== */

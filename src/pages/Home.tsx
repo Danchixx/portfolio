@@ -1,229 +1,218 @@
-import { useEffect, useRef } from 'react'
-import { ArrowRight, Download } from 'lucide-react'
-import anime from 'animejs'
-import Button from '../components/Button'
-import ParticleField from '../components/ParticleField'
+import { useEffect, useRef } from 'react';
+import { BookOpen, Briefcase, Cpu } from 'lucide-react';
+import anime from 'animejs';
+import Section from '../components/Section';
+import SectionHeading from '../components/SectionHeading';
+
+const education = [
+  {
+    title: 'BS Information Technology',
+    date: '2022 — 2026',
+    description: 'Pamantasan ng Lungsod ng Pasig. Consistent Honor (Dean\'s Lister | President Lister). Capstone: "LMS with AI Generated Reviewer".'
+  },
+  {
+    title: 'Senior High School (ICT Strand)',
+    date: '2020 — 2022',
+    description: 'Rizal High School. Graduated with Honors.'
+  },
+  {
+    title: 'Junior High School (CSS Elective)',
+    date: '2016 — 2020',
+    description: 'Rizal High School. Computer Systems Servicing (CSS) elective.'
+  },
+  {
+    title: 'Elementary',
+    date: '2010 — 2016',
+    description: 'Bagong Ilog Elementary School (6 years).'
+  }
+];
+
+const experience = [
+  {
+    title: 'Developer (OJT)',
+    date: 'Feb 2026 — Apr 2026',
+    description: 'SPARK. Contributed to the development of the company\'s LMS. Integrated backend services using Supabase. Designed and developed the UI/UX.'
+  },
+  {
+    title: 'Clerk',
+    date: 'Jun 2023 — Oct 2025',
+    description: 'SPES. Assisted in processing documents, provided front-desk support, and performed basic administrative tasks such as encoding and sorting forms.'
+  }
+];
+
+const skills = [
+  {
+    category: 'Tech Stack',
+    items: ['Python', 'PHP', 'JavaScript', 'MySQL', 'PostgreSQL', 'Java', 'C++', 'HTML', 'CSS', 'React.js']
+  },
+  {
+    category: 'Tools',
+    items: ['Microsoft Excel', 'GitHub', 'Git', 'VSCode', 'Antigravity', 'Bootstrap', 'Jquery', 'Visual Basic', 'Figma', 'Xampp', 'Supabase']
+  },
+  {
+    category: 'Soft Skills',
+    items: ['Problem Solving', 'Communication', 'Adaptability', 'Collaboration', 'Design Thinking', 'Logical Thinking']
+  }
+];
 
 export default function Home() {
-  const heroRef = useRef<HTMLDivElement>(null)
-  const scrollIndicatorRef = useRef<HTMLDivElement>(null)
+  const eduRef = useRef<HTMLDivElement>(null);
+  const expRef = useRef<HTMLDivElement>(null);
+  const hasAnimated = useRef(false);
 
   useEffect(() => {
-    const hero = heroRef.current
-    if (!hero) return
+    const edu = eduRef.current;
+    const exp = expRef.current;
+    if (!edu || !exp) return;
 
-    // Set initial states
-    const badge = hero.querySelector('.hero-badge') as HTMLElement
-    const heading = hero.querySelector('.hero-heading') as HTMLElement
-    const subtitle = hero.querySelector('.hero-subtitle') as HTMLElement
-    const desc = hero.querySelector('.hero-description') as HTMLElement
-    const cta = hero.querySelector('.hero-cta') as HTMLElement
-    const techRow = hero.querySelector('.hero-tech') as HTMLElement
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated.current) {
+            hasAnimated.current = true;
 
-    const elements = [badge, heading, subtitle, desc, cta, techRow].filter(Boolean)
-    elements.forEach((el) => {
-      el.style.opacity = '0'
-      el.style.transform = 'translateY(25px)'
-    })
+            const items = document.querySelectorAll('.timeline-item');
+            items.forEach(item => {
+              (item as HTMLElement).style.opacity = '0';
+              (item as HTMLElement).style.transform = 'translateX(20px)';
+            });
 
-    // Staggered entrance timeline
-    const tl = anime.timeline({ easing: 'easeOutCubic' })
+            anime({
+              targets: items,
+              opacity: [0, 1],
+              translateX: [20, 0],
+              duration: 600,
+              delay: anime.stagger(100),
+              easing: 'easeOutCubic'
+            });
 
-    tl.add({
-      targets: badge,
-      opacity: [0, 1],
-      translateY: [25, 0],
-      duration: 600,
-    })
-      .add(
-        {
-          targets: heading,
-          opacity: [0, 1],
-          translateY: [25, 0],
-          duration: 700,
-        },
-        '-=400'
-      )
-      .add(
-        {
-          targets: subtitle,
-          opacity: [0, 1],
-          translateY: [25, 0],
-          duration: 600,
-        },
-        '-=400'
-      )
-      .add(
-        {
-          targets: desc,
-          opacity: [0, 1],
-          translateY: [20, 0],
-          duration: 600,
-        },
-        '-=350'
-      )
-      .add(
-        {
-          targets: cta,
-          opacity: [0, 1],
-          translateY: [20, 0],
-          duration: 600,
-        },
-        '-=300'
-      )
-      .add(
-        {
-          targets: techRow,
-          opacity: [0, 1],
-          duration: 600,
-        },
-        '-=200'
-      )
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
 
-    // Animate heading text words
-    if (heading) {
-      const words = heading.querySelectorAll('.hero-word')
-      words.forEach((w) => {
-        ;(w as HTMLElement).style.opacity = '0'
-        ;(w as HTMLElement).style.transform = 'translateY(20px)'
-      })
-      anime({
-        targets: words,
-        opacity: [0, 1],
-        translateY: [20, 0],
-        delay: anime.stagger(80, { start: 200 }),
-        duration: 600,
-        easing: 'easeOutCubic',
-      })
-    }
+    observer.observe(edu);
 
-    // Tech items stagger
-    if (techRow) {
-      const techItems = techRow.querySelectorAll('.tech-item')
-      techItems.forEach((item) => {
-        ;(item as HTMLElement).style.opacity = '0'
-        ;(item as HTMLElement).style.transform = 'translateY(10px)'
-      })
-      anime({
-        targets: techItems,
-        opacity: [0, 1],
-        translateY: [10, 0],
-        delay: anime.stagger(60, { start: 800 }),
-        duration: 500,
-        easing: 'easeOutCubic',
-      })
-    }
+    // Skills animation observer
+    const skillsObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const tags = entry.target.querySelectorAll('.skill-tag');
+            tags.forEach(tag => {
+              (tag as HTMLElement).style.opacity = '0';
+              (tag as HTMLElement).style.transform = 'translateY(10px)';
+            });
+
+            anime({
+              targets: tags,
+              opacity: [0, 1],
+              translateY: [10, 0],
+              duration: 400,
+              delay: anime.stagger(30),
+              easing: 'easeOutCubic'
+            });
+
+            skillsObserver.disconnect();
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const skillsEl = document.querySelector('.skills-section');
+    if (skillsEl) skillsObserver.observe(skillsEl);
 
     return () => {
-      tl.pause()
-    }
-  }, [])
-
-  // Scroll indicator infinite bounce
-  useEffect(() => {
-    const indicator = scrollIndicatorRef.current
-    if (!indicator) return
-
-    // Fade in after a delay
-    indicator.style.opacity = '0'
-    const fadeIn = anime({
-      targets: indicator,
-      opacity: [0, 1],
-      duration: 600,
-      delay: 1200,
-      easing: 'easeOutCubic',
-    })
-
-    // Bounce the dot
-    const bounce = anime({
-      targets: indicator.querySelector('.scroll-dot'),
-      translateY: [0, 8, 0],
-      duration: 1500,
-      loop: true,
-      easing: 'easeInOutSine',
-      delay: 1400,
-    })
-
-    return () => {
-      fadeIn.pause()
-      bounce.pause()
-    }
-  }, [])
+      observer.disconnect();
+      skillsObserver.disconnect();
+    };
+  }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Particle background */}
-      <ParticleField />
+    <div className="pt-2">
+      <Section>
+        <SectionHeading title="Resume" align="left" />
 
-      <div ref={heroRef} className="max-w-6xl mx-auto px-6 pt-24 pb-16">
-        <div className="text-center max-w-3xl mx-auto">
-          {/* Badge */}
-          <div className="hero-badge">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 text-sm font-medium text-accent-700 bg-accent-100 rounded-full border border-accent-200/50">
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              Available for opportunities
-            </span>
+        <div className="space-y-12">
+          {/* Education Timeline */}
+          <div ref={eduRef}>
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-10 h-10 rounded-xl bg-surface-50 dark:bg-surface-800 border border-surface-200 dark:border-surface-700 flex items-center justify-center text-accent-500 shadow-sm">
+                <BookOpen size={20} />
+              </div>
+              <h3 className="text-xl font-bold text-surface-900 dark:text-surface-50">Education</h3>
+            </div>
+
+            <div className="ml-5 relative border-l border-surface-200 dark:border-surface-800 space-y-8 pl-8">
+              {education.map((item, index) => (
+                <div key={index} className="timeline-item relative">
+                  {/* Timeline dot */}
+                  <div className="absolute -left-[37px] top-1.5 w-4 h-4 bg-accent-500 rounded-full border-4 border-white dark:border-surface-850 shadow-sm" />
+                  
+                  <h4 className="text-base font-semibold text-surface-900 dark:text-surface-50 mb-1">{item.title}</h4>
+                  <span className="inline-block text-accent-600 dark:text-accent-400 text-sm font-medium mb-3">{item.date}</span>
+                  <p className="text-surface-600 dark:text-surface-400 text-sm leading-relaxed">{item.description}</p>
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Heading */}
-          <h1 className="hero-heading mt-8 text-5xl md:text-7xl font-bold tracking-tight text-surface-900 leading-[1.1]">
-            <span className="hero-word" style={{ display: 'inline-block' }}>Hi,</span>{' '}
-            <span className="hero-word" style={{ display: 'inline-block' }}>I'm</span>{' '}
-            <span className="hero-word text-transparent bg-clip-text bg-gradient-to-r from-accent-500 to-accent-700" style={{ display: 'inline-block' }}>
-              Danilo
-            </span>
-          </h1>
+          {/* Experience Timeline */}
+          <div ref={expRef}>
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-10 h-10 rounded-xl bg-surface-50 dark:bg-surface-800 border border-surface-200 dark:border-surface-700 flex items-center justify-center text-accent-500 shadow-sm">
+                <Briefcase size={20} />
+              </div>
+              <h3 className="text-xl font-bold text-surface-900 dark:text-surface-50">Experience</h3>
+            </div>
 
-          <p className="hero-subtitle mt-2 text-2xl md:text-3xl font-semibold text-surface-600">
-            Web Developer
-          </p>
-
-          {/* Description */}
-          <p className="hero-description mt-6 text-lg text-surface-500 leading-relaxed max-w-xl mx-auto">
-            I build modern, responsive web applications with clean code and
-            thoughtful design. Passionate about creating exceptional digital experiences.
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="hero-cta mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button to="/projects" variant="primary" size="lg">
-              View Projects
-              <ArrowRight size={18} />
-            </Button>
-            <Button to="/contact" variant="secondary" size="lg">
-              <Download size={18} />
-              Contact Me
-            </Button>
+            <div className="ml-5 relative border-l border-surface-200 dark:border-surface-800 space-y-8 pl-8">
+              {experience.map((item, index) => (
+                <div key={index} className="timeline-item relative">
+                  {/* Timeline dot */}
+                  <div className="absolute -left-[37px] top-1.5 w-4 h-4 bg-accent-500 rounded-full border-4 border-white dark:border-surface-850 shadow-sm" />
+                  
+                  <h4 className="text-base font-semibold text-surface-900 dark:text-surface-50 mb-1">{item.title}</h4>
+                  <span className="inline-block text-accent-600 dark:text-accent-400 text-sm font-medium mb-3">{item.date}</span>
+                  <p className="text-surface-600 dark:text-surface-400 text-sm leading-relaxed">{item.description}</p>
+                </div>
+              ))}
+            </div>
           </div>
+          {/* Skills Section */}
+          <div className="skills-section">
+            <div className="flex items-center gap-4 mb-6 mt-12">
+              <div className="w-10 h-10 rounded-xl bg-surface-50 dark:bg-surface-800 border border-surface-200 dark:border-surface-700 flex items-center justify-center text-accent-500 shadow-sm">
+                <Cpu size={20} />
+              </div>
+              <h3 className="text-xl font-bold text-surface-900 dark:text-surface-50">My Skills</h3>
+            </div>
 
-          {/* Tech stack row */}
-          <div className="hero-tech mt-16 flex items-center justify-center gap-8 flex-wrap">
-            <p className="text-xs font-medium text-surface-400 uppercase tracking-widest tech-item">
-              Tech I work with
-            </p>
-            <div className="flex items-center gap-6">
-              {['React', 'TypeScript', 'Tailwind', 'Node.js', 'Next.js'].map((tech) => (
-                <span
-                  key={tech}
-                  className="tech-item text-sm font-medium text-surface-400 hover:text-accent-500 transition-colors cursor-default"
-                >
-                  {tech}
-                </span>
+            <div className="grid md:grid-cols-2 gap-8 bg-surface-50/50 dark:bg-surface-800/20 p-6 rounded-2xl border border-surface-200 dark:border-surface-800">
+              {skills.map((skillGroup) => (
+                <div key={skillGroup.category} className="skill-group">
+                  <h4 className="text-sm font-semibold text-surface-900 dark:text-surface-50 uppercase tracking-wider mb-4">
+                    {skillGroup.category}
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {skillGroup.items.map((skill) => (
+                      <span
+                        key={skill}
+                        className="skill-tag px-3 py-1.5 text-sm font-medium text-surface-600 dark:text-surface-300 bg-white dark:bg-surface-800 border border-surface-200 dark:border-surface-700 rounded-lg hover:border-accent-300 dark:hover:border-accent-600 hover:text-accent-600 dark:hover:text-accent-400 hover:bg-accent-50 dark:hover:bg-surface-700 transition-all duration-200 cursor-default"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div
-        ref={scrollIndicatorRef}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-      >
-        <div className="w-6 h-10 border-2 border-surface-300 rounded-full flex items-start justify-center pt-2">
-          <div className="scroll-dot w-1.5 h-1.5 bg-surface-400 rounded-full" />
-        </div>
-      </div>
-    </section>
-  )
+      </Section>
+    </div>
+  );
 }
