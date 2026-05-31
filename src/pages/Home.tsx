@@ -11,9 +11,19 @@ const education = [
     description: 'Pamantasan ng Lungsod ng Pasig. Consistent Honor (Dean\'s Lister | President Lister). Capstone: "LMS with AI Generated Reviewer".'
   },
   {
-    title: 'Information Computer Technologies',
+    title: 'Senior High School (ICT Strand)',
     date: '2020 — 2022',
-    description: 'Rizal High School (Junior and Senior High). Graduated with Honors.'
+    description: 'Rizal High School. Graduated with Honors.'
+  },
+  {
+    title: 'Junior High School (CSS Elective)',
+    date: '2016 — 2020',
+    description: 'Rizal High School. Computer Systems Servicing (CSS) elective.'
+  },
+  {
+    title: 'Elementary',
+    date: '2010 — 2016',
+    description: 'Bagong Ilog Elementary School (6 years).'
   }
 ];
 

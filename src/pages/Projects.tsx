@@ -17,9 +17,23 @@ interface Project {
 
 const projects: Project[] = [
   {
+    title: 'Spark LMS',
+    description: 'Contributed to the development of a multi-tenant and subscription-based Learning Management System. Integrated backend services using Supabase and designed UI/UX features.',
+    techStack: ['React', 'Supabase', 'PostgreSQL', 'Tailwind CSS'],
+    githubUrl: 'https://github.com/Danchixx',
+    gradient: 'from-orange-500 to-amber-500',
+  },
+  {
+    title: 'Salon Appointment System',
+    description: 'A scheduling system that allows clients to book salon appointments online and helps staff manage their schedules effectively.',
+    techStack: ['HTML', 'CSS', 'JavaScript', 'PHP', 'MySQL'],
+    githubUrl: 'https://github.com/Danchixx',
+    gradient: 'from-pink-500 to-rose-500',
+  },
+  {
     title: 'LMS with AI-Generated Reviewer',
     description: 'Developed a web-based Learning Management System that automatically generates AI-powered reviewers from learning materials to help students review more efficiently.',
-    techStack: ['React', 'Supabase', 'AI / NLP', 'Tailwind CSS'],
+    techStack: ['PHP', 'MySQL', 'HTML', 'CSS', 'JavaScript', 'AI / NLP'],
     githubUrl: 'https://github.com/Danchixx',
     gradient: 'from-violet-500 to-purple-600',
   },
@@ -33,7 +47,7 @@ const projects: Project[] = [
   {
     title: 'Barangay Information System',
     description: 'Created a digital system for managing community records and resident information to improve organization and reduce manual paperwork.',
-    techStack: ['HTML', 'CSS', 'PHP', 'MySQL'],
+    techStack: ['HTML', 'CSS', 'JavaScript', 'PHP', 'MySQL'],
     githubUrl: 'https://github.com/Danchixx',
     gradient: 'from-blue-500 to-cyan-500',
   }

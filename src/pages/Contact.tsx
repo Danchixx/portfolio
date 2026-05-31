@@ -61,39 +61,71 @@ export default function Contact() {
     })
   }, [])
 
-  const handleSubmit = (e: FormEvent) => {
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
+    
+    const form = e.target as HTMLFormElement
+    const formData = new FormData(form)
+    const name = formData.get('name')
+    const email = formData.get('email')
+    const message = formData.get('message')
 
-    // Animate success state
-    setTimeout(() => {
-      if (successRef.current) {
-        anime({
-          targets: successRef.current,
-          opacity: [0, 1],
-          scale: [0.9, 1],
-          duration: 500,
-          easing: 'easeOutCubic',
-        })
+    setIsLoading(true)
+    setError(null)
 
-        // SVG checkmark draw
-        const checkPath = successRef.current.querySelector('.check-path') as SVGElement
-        if (checkPath) {
-          const length = 50
-          checkPath.style.strokeDasharray = `${length}`
-          checkPath.style.strokeDashoffset = `${length}`
+    try {
+      const response = await fetch('/api/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, message }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to send message')
+      }
+
+      setSubmitted(true)
+      form.reset()
+
+      // Animate success state
+      setTimeout(() => {
+        if (successRef.current) {
           anime({
-            targets: checkPath,
-            strokeDashoffset: [length, 0],
-            duration: 800,
-            delay: 200,
+            targets: successRef.current,
+            opacity: [0, 1],
+            scale: [0.9, 1],
+            duration: 500,
             easing: 'easeOutCubic',
           })
-        }
-      }
-    }, 50)
 
-    setTimeout(() => setSubmitted(false), 3000)
+          // SVG checkmark draw
+          const checkPath = successRef.current.querySelector('.check-path') as SVGElement
+          if (checkPath) {
+            const length = 50
+            checkPath.style.strokeDasharray = `${length}`
+            checkPath.style.strokeDashoffset = `${length}`
+            anime({
+              targets: checkPath,
+              strokeDashoffset: [length, 0],
+              duration: 800,
+              delay: 200,
+              easing: 'easeOutCubic',
+            })
+          }
+        }
+      }, 50)
+
+      setTimeout(() => setSubmitted(false), 5000)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   // Input focus animation
@@ -285,10 +317,16 @@ export default function Contact() {
                     />
                   </div>
 
-                  <div ref={submitBtnRef} onClick={handleRipple}>
-                    <Button type="submit" variant="primary" size="lg" className="w-full">
-                      <Send size={16} />
-                      Send Message
+                  {error && (
+                    <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-100 rounded-lg">
+                      {error}
+                    </div>
+                  )}
+
+                  <div ref={submitBtnRef} onClick={!isLoading ? handleRipple : undefined}>
+                    <Button type="submit" variant="primary" size="lg" className={`w-full ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}>
+                      <Send size={16} className={isLoading ? 'animate-pulse' : ''} />
+                      {isLoading ? 'Sending...' : 'Send Message'}
                     </Button>
                   </div>
                 </form>
